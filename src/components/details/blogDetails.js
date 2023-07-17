@@ -34,15 +34,17 @@ export default function BlogDetails() {
 
     return (
         <div>
+            
             <div style={{ position: "fixed", zIndex: "99" }}></div>
-            <Container maxWidth="sm" style={{ height: "auto", position: "relative" }}>
+            <Container maxWidth="md">
+            <div class="col" style={{ height: "auto", position: "relative" }}>
                 <button>
                     {" "}
                     <Link to={`/blog/`}> Back </Link>
                 </button>
-            </Container>
+            </div>
             <br></br> <br></br>
-            <Container maxWidth="sm" style={{ height: "auto", position: "relative" }}>
+            <div class="col" style={{ height: "auto", position: "relative" }}>
                 <Container maxWidth="sm" style={{ height: "auto", position: "relative" }}>
                     <h2>Title: {blog.title}</h2>
                     <Carousel showThumbs={false}>
@@ -56,14 +58,16 @@ export default function BlogDetails() {
                             <p>No video available</p>
                         )}
                     </Carousel>
-                    <p>{blog.content}</p>
+                    </Container>
+                    <textarea style={{ width: "100%", overflow:"none", border: "1px solid #dee0e2", height: "100%", minHeight: "100vh" }} >{blog.content}</textarea>
                     <p>Author: {blog.authorName}</p>
                     <p>Published Date: {blog.created_at}</p>
                     <p>Updated Date: {blog.updated_at}</p>
                     <p>Likes: {blog.likes}</p>
                     <p>Comments: {blog.total_comment}</p>
                     {/* <p>comments: {blog.total_comments} </p> */}
-                </Container>
+               
+            </div>
             </Container>
         </div>
     );

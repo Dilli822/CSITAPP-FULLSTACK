@@ -12,6 +12,9 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import StarBorder from "@mui/icons-material/StarBorder";
 import { Card } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+
+
 
 const PastNestedList = ({ selectedOption }) => {
     const [open, setOpen] = React.useState(false);
@@ -29,6 +32,13 @@ const PastNestedList = ({ selectedOption }) => {
     const handleClick3 = () => {
         setOpen3(!open3);
     };
+
+    const navigate = useNavigate();
+
+    const handleUploadPastQuestion = () => {
+        navigate("/past-question-upload");
+      };
+      
     return (
         <Card sx={{ minWidth: 275 }}>
             <List
@@ -54,18 +64,18 @@ const PastNestedList = ({ selectedOption }) => {
                 </ListItemButton>
                 <Collapse in={open} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
-                        <ListItemButton sx={{ pl: 4 }}>
+                        <ListItemButton sx={{ pl: 4 }} onClick={handleUploadPastQuestion}>
                             <ListItemIcon>
                                 <StarBorder />
                             </ListItemIcon>
-                            <ListItemText primary="Starred" />
+                            <ListItemText primary="Upload Past Question" />
                         </ListItemButton>
 
                         <ListItemButton sx={{ pl: 4 }}>
                             <ListItemIcon>
                                 <StarBorder />
                             </ListItemIcon>
-                            <ListItemText primary="Starred" />
+                            <ListItemText primary="See Past Question" />
                         </ListItemButton>
                     </List>
                 </Collapse>
@@ -84,14 +94,14 @@ const PastNestedList = ({ selectedOption }) => {
                             <ListItemIcon>
                                 <StarBorder />
                             </ListItemIcon>
-                            <ListItemText primary="Starred" />
+                            <ListItemText primary="Upload Past Question Solutions" />
                         </ListItemButton>
 
                         <ListItemButton sx={{ pl: 4 }}>
                             <ListItemIcon>
                                 <StarBorder />
                             </ListItemIcon>
-                            <ListItemText primary="Starred" />
+                            <ListItemText primary="See Past Questions" />
                         </ListItemButton>
                     </List>
                 </Collapse>
@@ -122,6 +132,34 @@ const PastNestedList = ({ selectedOption }) => {
                     </List>
                 </Collapse>
             </List>
+
+            <ListItemButton onClick={handleClick3}>
+                    <ListItemIcon>
+                        <InboxIcon />
+                    </ListItemIcon>
+
+                    <ListItemText primary="Upload Notes" />
+                    {open3 ? <ExpandLess /> : <ExpandMore />}
+                </ListItemButton>
+                <Collapse in={open3} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding>
+                        <ListItemButton sx={{ pl: 4 }}>
+                            <ListItemIcon>
+                                <StarBorder />
+                            </ListItemIcon>
+                            <ListItemText primary="Starred" />
+                        </ListItemButton>
+
+                        <ListItemButton sx={{ pl: 4 }}>
+                            <ListItemIcon>
+                                <StarBorder />
+                            </ListItemIcon>
+                            <ListItemText primary="Starred" />
+                        </ListItemButton>
+                    </List>
+                </Collapse>
+       
+
         </Card>
     );
 }
