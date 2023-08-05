@@ -356,8 +356,12 @@ const Blog = () => {
           {defaultOption !== "Visitor Semester" ? defaultOption + " selected" : "Visitor option selected"}
         </Typography>
       )} */}
+
+      <div style={{ margintop: "2rem"}}>
+      <Button variant="contained" onClick={updateSelectedOption} >Set Default</Button>
+
+      </div>
        
-      <Button variant="contained" onClick={updateSelectedOption} style={{ margintop: "1rem"}}>Set Default</Button>
 
     </div>
 

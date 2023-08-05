@@ -48,7 +48,7 @@ export default function BlogDetails() {
                 <Container maxWidth="sm" style={{ height: "auto", position: "relative" }}>
                     <h2>Title: {blog.title}</h2>
                     <Carousel showThumbs={false}>
-                        {blog.image ? <img style={{ maxWidth: "100%" }} src={`http://localhost:8000${blog.image}`} alt="Image" /> : <p>No image available</p>}
+                        {blog.image ? <img className="img-fluid" style={{ maxWidth: "100%" }} src={`http://localhost:8000${blog.image}`} alt="Image" /> : <p>No image available</p>}
                         {blog.video ? (
                             <video controls style={{ maxWidth: "100%" }}>
                                 <source src={`http://localhost:8000${blog.video}`} type="video/mp4" />
@@ -59,7 +59,7 @@ export default function BlogDetails() {
                         )}
                     </Carousel>
                     </Container>
-                    <textarea style={{ width: "100%", overflow:"none", border: "1px solid #dee0e2", height: "100%", minHeight: "100vh" }} >{blog.content}</textarea>
+                    <textarea style={{ width: "100%", overflow:"none", border: "1px solid #dee0e2", height: "100%" }} >{blog.content}</textarea>
                     <p>Author: {blog.authorName}</p>
                     <p>Published Date: {blog.created_at}</p>
                     <p>Updated Date: {blog.updated_at}</p>

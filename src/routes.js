@@ -14,6 +14,9 @@ import BlogList from "./components/blogapp/blogList";
 import BlogDetails from "./components/details/blogDetails";
 import PasswordResetForm from "./components/resetPassword/reset_password";
 import Profile from "./components/account/profile";
+import PastQuestionUpload from "./components/Semester/pastQuestionUpload/Past_Question_Upload";
+import PastQuestionDetails from "./components/Semester/pastQuestions/pastQuestionDetails";
+import UserPastQuestionDetails from "./components/Semester/UserPastQuestion/user_PastQuestion";
 
 function MainRoute() {
     return (
@@ -32,6 +35,10 @@ function MainRoute() {
             <Route path="/blog/:id" element={<BlogDetails/>} exact></Route>
             <Route path="reset-password" element={<PasswordResetForm/>} exact />
             <Route path="/profile/:id" element={<Profile/>} exact />
+            <Route path="/past-question-upload" element={<PastQuestionUpload/>} />
+            <Route path="/past-question-details" element={<PastQuestionDetails/>}/>
+            <Route path="/user-past-question" element={<UserPastQuestionDetails/>}/>
+   
         </Routes>
       </BrowserRouter>
     );

@@ -305,9 +305,9 @@ const Likes = ({ selectedOptionFromSource })  => {
                             <h2>Title: {blog.title}</h2>
                             <h3>Blog Id: {blog.id}</h3>
                             <Carousel showThumbs={false}>
-                                {blog.image ? <img style={{ maxWidth: "100%" }} src={`http://localhost:8000${blog.image}`} alt="Image" /> : <p>No image available</p>}
+                                {blog.image ? <img className="img-fluid" style={{ maxWidth: "100%" }} src={`http://localhost:8000${blog.image}`} alt="Image" /> : <p>No image available</p>}
                                 {blog.video ? (
-                                    <video controls style={{ maxWidth: "100%" }}>
+                                    <video className="img-fluid" ontrols style={{ maxWidth: "100%" }}>
                                         <source src={`http://localhost:8000${blog.video}`} type="video/mp4" />
                                         Your browser does not support the video tag.
                                     </video>

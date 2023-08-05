@@ -38,7 +38,13 @@ const PastNestedList = ({ selectedOption }) => {
     const handleUploadPastQuestion = () => {
         navigate("/past-question-upload");
       };
-      
+    const handleShowPastQuestions = () =>{
+        navigate("/past-question-details");
+    }
+
+    const handleShowUserPastQuestions = () => {
+        navigate("/user-past-question");
+    }
     return (
         <Card sx={{ minWidth: 275 }}>
             <List
@@ -71,12 +77,24 @@ const PastNestedList = ({ selectedOption }) => {
                             <ListItemText primary="Upload Past Question" />
                         </ListItemButton>
 
-                        <ListItemButton sx={{ pl: 4 }}>
+                        <ListItemButton sx={{ pl: 4 }} onClick={handleShowPastQuestions}>
                             <ListItemIcon>
                                 <StarBorder />
                             </ListItemIcon>
-                            <ListItemText primary="See Past Question" />
+                            <ListItemText primary="See All Past Question" />
+
+                            
                         </ListItemButton>
+
+                        <ListItemButton sx={{ pl: 4 }} >
+                            <ListItemIcon>
+                                <StarBorder />
+                            </ListItemIcon>
+                            <ListItemText primary="My Past Question" onClick={handleShowUserPastQuestions}/>
+
+                            
+                        </ListItemButton>
+
                     </List>
                 </Collapse>
 
@@ -101,9 +119,20 @@ const PastNestedList = ({ selectedOption }) => {
                             <ListItemIcon>
                                 <StarBorder />
                             </ListItemIcon>
-                            <ListItemText primary="See Past Questions" />
+                            <ListItemText primary="See All Past Questions" />
                         </ListItemButton>
+
+
+                        <ListItemButton sx={{ pl: 4 }}>
+                            <ListItemIcon>
+                                <StarBorder />
+                            </ListItemIcon>
+                            <ListItemText primary="My Past Questions" />
+                        </ListItemButton>
+
                     </List>
+
+                    
                 </Collapse>
 
                 <ListItemButton onClick={handleClick3}>

@@ -89,3 +89,7 @@ Video playback functionality forward and backward
 
 UPDATE THE COMMENT BY CLICKING
 SHOWING THE COMMENTATOR NAME
+
+
+struggle to keep the doc
+while sending the image/doc file as null keep form as encpyrpt
