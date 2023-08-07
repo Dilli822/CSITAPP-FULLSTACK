@@ -269,50 +269,18 @@ class CommentDetailAPIView(APIView):
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Image, Document, PastQuestionUpload
-from .serializers import ImageSerializer, DocumentSerializer, PastQuestionUploadSerializer
+from .models import PastQuestionDocument
+from .serializers import PastQuestionDocumentSerializer
 
-class PastQuestionUploadAPIView(APIView):
-    def get(self, request, pk=None):
-        if pk:
-            past_question = self.get_past_question(pk)
-            if not past_question:
-                return Response({"error": "PastQuestionUpload not found"}, status=status.HTTP_404_NOT_FOUND)
-            serializer = PastQuestionUploadSerializer(past_question)
-        else:
-            past_questions = PastQuestionUpload.objects.all()
-            serializer = PastQuestionUploadSerializer(past_questions, many=True)
-
+class PastQuestionDocumentAPIView(APIView):
+    def get(self, request):
+        documents = PastQuestionDocument.objects.all()
+        serializer = PastQuestionDocumentSerializer(documents, many=True)
         return Response(serializer.data)
 
     def post(self, request):
-        serializer = PastQuestionUploadSerializer(data=request.data)
+        serializer = PastQuestionDocumentSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def put(self, request, pk):
-        past_question = self.get_past_question(pk)
-        if not past_question:
-            return Response({"error": "PastQuestionUpload not found"}, status=status.HTTP_404_NOT_FOUND)
-
-        serializer = PastQuestionUploadSerializer(past_question, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, pk):
-        past_question = self.get_past_question(pk)
-        if not past_question:
-            return Response({"error": "PastQuestionUpload not found"}, status=status.HTTP_404_NOT_FOUND)
-
-        past_question.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-    def get_past_question(self, pk):
-        try:
-            return PastQuestionUpload.objects.get(pk=pk)
-        except PastQuestionUpload.DoesNotExist:
-            return None

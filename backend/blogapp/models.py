@@ -130,17 +130,63 @@ class MyModel(models.Model):
 #
 
 
-class Image(models.Model):
-    image_file = models.ImageField(upload_to='imgfile/')
+# class Image(models.Model):
+#     image_file = models.ImageField(upload_to='imgfile/')
 
-class Document(models.Model):
-    document_file = models.FileField(upload_to='docfiles/')
+# class Document(models.Model):
+#     document_file = models.FileField(upload_to='docfiles/')
 
-class PastQuestionUpload(models.Model):
+
+# class PastQuestionUpload(models.Model):
+#     title = models.CharField(max_length=200, blank=True, null=True)
+#     year_inserted = models.IntegerField()
+#     regular_field = models.CharField(max_length=100)
+#     back_field = models.CharField(max_length=100)
+#     images = models.ManyToManyField(Image, blank=True)
+#     documents = models.ManyToManyField(Document, blank=True)
+#     author_id = models.CharField(max_length=100, null=True, blank=True)
+
+
+# from django.db import models
+
+# class PastQuestionDocument(models.Model):
+#     title = models.CharField(max_length=200, blank=True, null=True)
+#     year_inserted = models.IntegerField()
+#     regular_field = models.CharField(max_length=100)
+#     back_field = models.CharField(max_length=100)
+#     author_id = models.CharField(max_length=100, null=True, blank=True)
+
+# class DocumentFile(models.Model):
+#     past_question = models.ForeignKey(PastQuestionDocument, related_name='documents', on_delete=models.CASCADE)
+#     document_file = models.FileField(upload_to='docfiles/')
+
+# class ImageFile(models.Model):
+#     past_question = models.ForeignKey(PastQuestionDocument, related_name='images', on_delete=models.CASCADE)
+#     image_file = models.ImageField(upload_to='imgfile/')
+
+
+from django.db import models
+
+class PastQuestionDocument(models.Model):
     title = models.CharField(max_length=200, blank=True, null=True)
     year_inserted = models.IntegerField()
     regular_field = models.CharField(max_length=100)
     back_field = models.CharField(max_length=100)
-    images = models.ManyToManyField(Image, blank=True)
-    documents = models.ManyToManyField(Document, blank=True)
     author_id = models.CharField(max_length=100, null=True, blank=True)
+    document_files = models.ManyToManyField('DocumentFile', blank=True)
+    image_files = models.ManyToManyField('ImageFile', blank=True)
+
+    def __str__(self):
+        return self.title
+
+class DocumentFile(models.Model):
+    document_file = models.FileField(upload_to='docfiles/')
+
+    def __str__(self):
+        return f"{self.document_file}"
+
+class ImageFile(models.Model):
+    image_file = models.ImageField(upload_to='imgfile/')
+
+    def __str__(self):
+        return f"{self.image_file}"

@@ -103,26 +103,83 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = '__all__'
 
-
-
-
 from rest_framework import serializers
-from .models import Image, Document, PastQuestionUpload
+from .models import PastQuestionDocument, DocumentFile, ImageFile
 
-class ImageSerializer(serializers.ModelSerializer):
+class DocumentFileSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Image
-        fields = ('id', 'image_file')
+        model = DocumentFile
+        fields = ['document_file']
 
-class DocumentSerializer(serializers.ModelSerializer):
+class ImageFileSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Document
-        fields = ('id', 'document_file')
+        model = ImageFile
+        fields = ['image_file']
 
-class PastQuestionUploadSerializer(serializers.ModelSerializer):
-    images = ImageSerializer(many=True, read_only=True)
-    documents = DocumentSerializer(many=True, read_only=True)
+class PastQuestionDocumentSerializer(serializers.ModelSerializer):
+    document_files = DocumentFileSerializer(many=True)
+    image_files = ImageFileSerializer(many=True)
 
     class Meta:
-        model = PastQuestionUpload
-        fields = ('id', 'title', 'year_inserted', 'regular_field', 'back_field', 'images', 'documents', 'author_id')
+        model = PastQuestionDocument
+        fields = ['id', 'title', 'year_inserted', 'regular_field', 'back_field', 'document_files', 'image_files', 'author_id']
+
+    def create(self, validated_data):
+        document_files_data = validated_data.pop('document_files', [])
+        image_files_data = validated_data.pop('image_files', [])
+        past_question = PastQuestionDocument.objects.create(**validated_data)
+
+        for doc_file_data in document_files_data:
+            DocumentFile.objects.create(past_question=past_question, **doc_file_data)
+
+        for img_file_data in image_files_data:
+            ImageFile.objects.create(past_question=past_question, **img_file_data)
+
+        return past_question
+
+    def update(self, instance, validated_data):
+        document_files_data = validated_data.pop('document_files', [])
+        image_files_data = validated_data.pop('image_files', [])
+
+        instance.title = validated_data.get('title', instance.title)
+        instance.year_inserted = validated_data.get('year_inserted', instance.year_inserted)
+        instance.regular_field = validated_data.get('regular_field', instance.regular_field)
+        instance.back_field = validated_data.get('back_field', instance.back_field)
+        instance.author_id = validated_data.get('author_id', instance.author_id)
+        instance.save()
+
+        # Update DocumentFiles
+        document_files = instance.document_files.all()
+        document_files_ids = [item.id for item in document_files]
+
+        for doc_file_data in document_files_data:
+            if 'id' in doc_file_data:
+                doc_file_id = doc_file_data['id']
+                doc_file = DocumentFile.objects.get(id=doc_file_id, past_question=instance)
+                doc_file.document_file = doc_file_data.get('document_file', doc_file.document_file)
+                doc_file.save()
+            else:
+                DocumentFile.objects.create(past_question=instance, **doc_file_data)
+
+        for doc_file_id in document_files_ids:
+            if doc_file_id not in [item.get('id') for item in document_files_data]:
+                DocumentFile.objects.get(id=doc_file_id).delete()
+
+        # Update ImageFiles
+        image_files = instance.image_files.all()
+        image_files_ids = [item.id for item in image_files]
+
+        for img_file_data in image_files_data:
+            if 'id' in img_file_data:
+                img_file_id = img_file_data['id']
+                img_file = ImageFile.objects.get(id=img_file_id, past_question=instance)
+                img_file.image_file = img_file_data.get('image_file', img_file.image_file)
+                img_file.save()
+            else:
+                ImageFile.objects.create(past_question=instance, **img_file_data)
+
+        for img_file_id in image_files_ids:
+            if img_file_id not in [item.get('id') for item in image_files_data]:
+                ImageFile.objects.get(id=img_file_id).delete()
+
+        return instance

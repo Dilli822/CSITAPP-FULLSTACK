@@ -3,10 +3,8 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from .views import *
 from .views import CommentDetailAPIView,CommentListAPIView,UserAPIView,CurrentUserAPIView
 from .api import BlogCommentAPIView
-from .views import PastQuestionUploadAPIView
-from .views import PastQuestionUploadAPIView
-app_name = 'blog'
 
+from . import views
 urlpatterns = [
     path('blogsurls/', BlogURLListAPIView.as_view(), name='blog-list'),
     path('register/', RegisterAPIView.as_view(), name='register'),
@@ -27,8 +25,7 @@ urlpatterns = [
     path('blog/comments/<int:pk>/', CommentDetailAPIView.as_view(), name='comment_detail'),
     path('blog-comments/', BlogCommentAPIView.as_view(), name='blog-comment-api'),
     # path('blog/documents/', DocumentListAPIView.as_view(), name='document-list'),
-    path('blog/crud/documents/', PastQuestionUploadAPIView.as_view(), name='document-detail'),  
-    path('blog/documents/crud/', PastQuestionUploadAPIView.as_view(), name='document-create'),
-    path('blog/past-question-documents/crud/<int:pk>/', PastQuestionUploadAPIView.as_view(), name='past-question-document-detail'),
-    
+    path('blog/documents/crud/', PastQuestionDocumentAPIView.as_view(), name='document-list'),
+  
+        path('past-questions/', PastQuestionDocumentAPIView.as_view(), name='past-question-list-create'),
 ]
