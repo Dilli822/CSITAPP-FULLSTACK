@@ -1,0 +1,7 @@
+Django
+djangorestframework
+djangorestframework-jwt
+django-cors-headers
+djangorestframework-simplejwt
+Pillow
+# Add other dependencies as needed
